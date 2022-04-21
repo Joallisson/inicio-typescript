@@ -137,7 +137,7 @@ class User{
         return console.log(`O nome do usuário é ${this.name}`);
     }
 
-    showIdade(canShow: boolean){
+    showUserRole(canShow: boolean){
         if (canShow) {
             return console.log("A regra passada é: " + this.role);
         }
@@ -146,8 +146,73 @@ class User{
 }
 
 const zeca = new User("Zezinho", "Admin", true);
-console.log(zeca)
-console.log(typeof zeca)
+//console.log(zeca);
+//console.log(typeof zeca);
 
-zeca.showName();
-zeca.showIdade(false);
+//zeca.showName();
+//zeca.showUserRole(false);
+
+//=====================================
+//Interfaces em classes 
+//Interfaces diz como a classe deve se conportar 
+//Na interface eu só declaro os atribuitos e métodos e nas classes eu implemento
+//As interfaces devem começar com um 'I' maiúsculo
+interface IVehicle{
+    brand: string;
+    showBrand(): void;
+}
+
+class Car implements IVehicle{
+    brand;
+    wheels;
+
+    constructor(brand: string, wheels: number){
+        this.brand = brand;
+        this.wheels = wheels;
+    }
+
+    showBrand(): void {
+        console.log(`A marca do carro é ${this.brand}`)
+    }
+}
+
+const car = new Car("Fiat", 3);
+//console.log(car.wheels);
+//car.showBrand();
+
+//Herança
+class SuperCar extends Car{
+    engine;
+
+    constructor(brand: string, wheels: number, engine: number){
+        super(brand, wheels);
+        this.engine = engine;
+    }
+}
+
+const a4 = new SuperCar("Audi", 4, 3.0);
+//console.log(`Total de rodas é ${a4.wheels} e o motor é ${a4.engine}`);
+//a4.showBrand();
+
+//Usando Decorators
+//Gera dados e informações automáticas dentro do sistema
+//Toda Decorator é uma função
+function BaseParameters(){ //Constructor decorator
+    return function <T extends {new (...args: any[]): {}}>(constructor: T){
+        return class extends constructor{
+            id = Math.random();
+            createdAt = new Date();
+        }
+    }
+}
+
+@BaseParameters() //Vai retornar um objeto com com todos os atributos da classe person mais o id e o createAt
+class Person {
+    name;
+
+    constructor(name:string){
+        this.name = name;
+    }
+}
+const person = new Person("jhony");
+console.log(person);

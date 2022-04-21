@@ -1,4 +1,10 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 let x = 35;
 //console.log(x);
 let user = "JOÃO";
@@ -97,7 +103,7 @@ class User {
     showName() {
         return console.log(`O nome do usuário é ${this.name}`);
     }
-    showIdade(canShow) {
+    showUserRole(canShow) {
         if (canShow) {
             return console.log("A regra passada é: " + this.role);
         }
@@ -105,7 +111,49 @@ class User {
     }
 }
 const zeca = new User("Zezinho", "Admin", true);
-console.log(zeca);
-console.log(typeof zeca);
-zeca.showName();
-zeca.showIdade(false);
+class Car {
+    constructor(brand, wheels) {
+        this.brand = brand;
+        this.wheels = wheels;
+    }
+    showBrand() {
+        console.log(`A marca do carro é ${this.brand}`);
+    }
+}
+const car = new Car("Fiat", 3);
+//console.log(car.wheels);
+//car.showBrand();
+//Herança
+class SuperCar extends Car {
+    constructor(brand, wheels, engine) {
+        super(brand, wheels);
+        this.engine = engine;
+    }
+}
+const a4 = new SuperCar("Audi", 4, 3.0);
+//console.log(`Total de rodas é ${a4.wheels} e o motor é ${a4.engine}`);
+//a4.showBrand();
+//Usando Decorators
+//Gera dados e informações automáticas dentro do sistema
+//Toda Decorator é uma função
+function BaseParameters() {
+    return function (constructor) {
+        return class extends constructor {
+            constructor() {
+                super(...arguments);
+                this.id = Math.random();
+                this.createdAt = new Date();
+            }
+        };
+    };
+}
+let Person = class Person {
+    constructor(name) {
+        this.name = name;
+    }
+};
+Person = __decorate([
+    BaseParameters() //Vai retornar um objeto com com todos os atributos da classe person mais o id e o createAt
+], Person);
+const person = new Person("jhony");
+console.log(person);
